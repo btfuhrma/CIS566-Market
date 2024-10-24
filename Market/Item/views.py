@@ -6,3 +6,6 @@ from django.template import loader
 def index(request):
     return render(request, "Item/index.html")
 
+def search(request, title):
+    context = "temp"
+    return render(request, "Item/index.html")
