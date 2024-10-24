@@ -21,11 +21,11 @@
     </div>
     <div class="create-item-outer">
         <div class="create-item-inner">
-            <form action="{% url 'create' %}" method="POST" class="create-item-form">
+            <form action="{% url 'create' %}" method="POST" class="create-item-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="category">
-                    <label for="category"></label>
-                    <select required>
+                    <select name="category" required>
+                        <option value="" disabled selected>Select a category</option> <!-- Non-selectable placeholder -->
                         <option value="homemade">Homemade</option>
                         <option value="collectible">Collectible</option>
                         <option value="general_market">General market</option>
@@ -41,12 +41,14 @@
                     <input type="number" name="price" placeholder="Price" required>
                 </div>
                 <div class="item-image">
-                    <input type="image" name="image" required>
+                    <label for="image">Upload Image</label>
+                    <input type="file" name="image" accept="image/*" required>
                 </div>                
                 <div class="submit-button">
                     <button class="create-item-button" type="submit">Submit</button>
                 </div>
             </form>
+            
         </div>
     </div>
 </body>
