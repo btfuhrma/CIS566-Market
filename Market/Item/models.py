@@ -21,11 +21,19 @@ class Item(models.Model):
 
 # Instead of factory method, changed to builder pattern as I looked it up and its easier and more applicable
 class ItemBuilder:
-    title = 'Title'
-    description = 'Item Description'
-    price = 0
-    category = 'General Market'
-    is_sold = False 
+
+    def __init__(self):
+        # Setting default values for the builder pattern
+        title = 'Title'
+        description = 'Item Description'
+        price = 0
+        category = 'general_market'
+        is_sold = False
+        image = None
+
+    def set_sold(self, sold):
+        self.is_sold = sold
+        return self
 
     def set_title(self, title):
         self.title = title
@@ -42,6 +50,10 @@ class ItemBuilder:
     def set_category(self, category):
         self.category = category
         return self
+    
+    def set_image(self, image):
+        self.image = image
+        return self
 
     def build(self):
         return Item.objects.create(
@@ -50,4 +62,5 @@ class ItemBuilder:
             price=self.price,
             category=self.category,
             is_sold=self.is_sold,
+            image=self.image,
         )
