@@ -28,11 +28,6 @@
     margin-top: 15px;
 }
 
-.item-image{
-    text-align: center;
-    margin-top: 15px;
-}
-
 .submit-button{
     text-align: center;
 }
@@ -60,4 +55,34 @@
   background-color: #3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
+}
+.item-image {
+    display: flex;                /* Use flexbox for alignment */
+    flex-direction: column;      /* Stack items vertically */
+    align-items: center;         /* Center items horizontally */
+    margin-top: 15px;         /* Space below the item image section */
+}
+
+.upload-image-button {
+    display: inline-block;        /* Make the label behave like a button */
+    padding: 10px 20px;          /* Add padding for a button-like appearance */
+    background-color: #333;   /* Green background */
+    color: white;                /* White text color */
+    border-radius: 4px;          /* Rounded corners */
+    cursor: pointer;              /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background change */
+}
+
+.upload-image-button:hover {
+    background-color: #218838;    /* Darker green on hover */
+}
+
+.item-description-input{
+    width: 15%;
+    height: 75px;
+}
+
+.item-title-input{
+    width: 15%;
+    height: 50px;
 }

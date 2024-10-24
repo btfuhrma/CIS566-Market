@@ -32,17 +32,17 @@
                     </select>
                 </div>
                 <div class="item-title">
-                    <input type="text" name="title" placeholder="Item Title" required>
+                    <textarea class="item-title-input" type="text" name="title" placeholder="Item Title" required></textarea>
                 </div>
                 <div class="item-description">
-                    <input type="text" name="description" placeholder="Item Description" required>
+                    <textarea class="item-description-input" name="description" placeholder="Item Description" required></textarea>
                 </div>
                 <div class="item-price">
                     <input type="number" name="price" placeholder="Price" required>
                 </div>
                 <div class="item-image">
-                    <label for="image">Upload Image</label>
-                    <input type="file" name="image" accept="image/*" required>
+                    <label for="image" class="upload-image-button">Upload Image</label>
+                    <input type="file" name="image" id="image" style="visibility:hidden;" accept="image/*" required>
                 </div>                
                 <div class="submit-button">
                     <button class="create-item-button" type="submit">Submit</button>
