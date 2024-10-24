@@ -35,5 +35,6 @@ def create(request):
         builder.set_price(price)
         builder.set_title(title)
         builder.set_sold(False)
+        builder.set_user(request.user)
         builder.build()
     return render(request, "Item/index.html")

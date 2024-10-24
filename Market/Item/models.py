@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from datetime import datetime
 
 User = get_user_model()  # This gets the current user model
 
@@ -30,6 +31,11 @@ class ItemBuilder:
         category = 'general_market'
         is_sold = False
         image = None
+        user = None
+
+    def set_user(self, user):
+        self.user = user
+        return self
 
     def set_sold(self, sold):
         self.is_sold = sold
@@ -57,6 +63,7 @@ class ItemBuilder:
 
     def build(self):
         return Item.objects.create(
+            user = self.user,
             title=self.title,
             description=self.description,
             price=self.price,
