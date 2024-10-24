@@ -22,4 +22,4 @@ def createItem(request):
     return render(request, "Item/createItem.html")
 
 def create(request):
-    pass
+    return render(request, "Item/index.html")

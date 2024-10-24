@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <link rel="stylesheet" href="{% static 'Item/createItem.css' %}">
+    <link rel="stylesheet" href="{% static 'nav/nav.css' %}">
 </head>
 <body>
     <div class="nav-bar">
@@ -22,7 +23,29 @@
         <div class="create-item-inner">
             <form action="{% url 'create' %}" method="POST" class="create-item-form">
                 {% csrf_token %}
-                
+                <div class="category">
+                    <label for="category"></label>
+                    <select required>
+                        <option value="homemade">Homemade</option>
+                        <option value="collectible">Collectible</option>
+                        <option value="general_market">General market</option>
+                    </select>
+                </div>
+                <div class="item-title">
+                    <input type="text" name="title" placeholder="Item Title" required>
+                </div>
+                <div class="item-description">
+                    <input type="text" name="description" placeholder="Item Description" required>
+                </div>
+                <div class="item-price">
+                    <input type="number" name="price" placeholder="Price" required>
+                </div>
+                <div class="item-image">
+                    <input type="image" name="image" required>
+                </div>                
+                <div class="submit-button">
+                    <button class="create-item-button" type="submit">Submit</button>
+                </div>
             </form>
         </div>
     </div>
