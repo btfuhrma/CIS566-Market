@@ -18,16 +18,11 @@
             <li class="nav-item" style="float:right"><a href="#about">About</a></li>
         </ul>
     </div>
-    <div class="search-div">
-        <div class="search-bar">
-            <form action="{% url 'search' %}" method="GET" class="search-form">
+    <div class="create-item-outer">
+        <div class="create-item-inner">
+            <form action="{% url 'create' %}" method="POST" class="create-item-form">
                 {% csrf_token %}
-                <div class="search-box">
-                    <input class="search-input" type="text" name="title" placeholder="What Item Are You Looking For?" required>
-                </div>
-                <div class="search-button-div">
-                    <button class="search-button" type="submit">Search</button>
-                </div>
+                
             </form>
         </div>
     </div>
