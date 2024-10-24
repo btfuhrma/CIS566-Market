@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="{% static 'Item/index.css' %}">
+    <link rel="stylesheet" href="{% static 'Item/search.css' %}">
 </head>
 <body>
     <div class="nav-bar">
@@ -13,23 +13,11 @@
             <li class="nav-item"><a class="active" href="{% url 'index' %}">Home</a></li>
             <li class="nav-item"><a href="#news">My Items</a></li>
             <li class="nav-item"><a href="#contact">Purchases</a></li>
-            <li class="nav-item"><a href="{% url 'createItem' %}">Create Listing</a></li>
+            <li class="nav-item"><a href="{% url 'createItem' %}"Create Listing</a></li>
             <li class="nav-item" style="float:right"><a href="#about">Login</a></li> <!-- This needs some logic if they already logged in for l8r-->
             <li class="nav-item" style="float:right"><a href="#about">About</a></li>
         </ul>
     </div>
-    <div class="search-div">
-        <div class="search-bar">
-            <form action="{% url 'search' %}" method="GET" class="search-form">
-                {% csrf_token %}
-                <div class="search-box">
-                    <input class="search-input" type="text" name="title" placeholder="What Item Are You Looking For?" required>
-                </div>
-                <div class="search-button-div">
-                    <button class="search-button" type="submit">Search</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    
 </body>
 </html>
