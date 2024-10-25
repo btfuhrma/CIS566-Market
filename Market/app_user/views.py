@@ -7,6 +7,9 @@ from django.contrib import messages
 def createAccount(request):
     return render(request, "app_user/create.html")
 
+def loginPage(request):
+    return render(request, "app_user/login.html")
+
 def login(request):
     if request.method == "POST":
         email = request.POST.get('email', '')
