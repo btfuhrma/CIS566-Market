@@ -56,11 +56,9 @@
   transform: translateY(4px);
 }
 
-.create-account:visited{
+a.create-account:visited{
     text-decoration: none;
+    color: white
 }
 
-.create-account:hover{
-    text-decoration: none;
-}
 
