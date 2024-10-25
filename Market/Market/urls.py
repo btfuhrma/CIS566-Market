@@ -22,5 +22,6 @@ urlpatterns = [
     path("", homePage, name="index"),
     path('admin/', admin.site.urls),
     path("Item/", include("Item.urls")),
+    path("app_user/", include("app_user.urls"))
 
 ]

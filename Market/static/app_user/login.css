@@ -1,0 +1,66 @@
+.login-container{
+    width: 100%;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.login-box{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 20%;
+    height: 15%;
+    background-color: #333;
+}
+
+.user-create-input{
+    margin-bottom: 15px;
+}
+
+.prompt-title{
+    color: white;
+}
+
+.email-input{
+    width: 50%;
+    height: 20px;
+}
+
+.password-input{
+    width: 50%;
+    height: 20px;
+}
+
+.create-item-button{
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    display: inline-block;
+    padding: 15px 25px;
+}
+
+.create-item-button:hover {background-color: #3e8e41}
+
+.create-item-button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.create-account:visited{
+    text-decoration: none;
+}
+
+.create-account:hover{
+    text-decoration: none;
+}
+

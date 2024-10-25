@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'app_user/create.css' %}">
+    <link rel="stylesheet" href="{% static 'nav/nav.css' %}">
+    <script src="{% static 'app_user/create.js' %}"></script>
+</head>
+<body>
+    <div class="nav-bar">
+        <ul class="nav-list">
+            <li class="nav-item"><a class="active" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item"><a href="#news">My Items</a></li>
+            <li class="nav-item"><a href="#contact">Purchases</a></li>
+            <li class="nav-item"><a href="{% url 'createItem' %}">Create Listing</a></li>
+            <li class="nav-item" style="float:right"><a href="#about">Login</a></li> <!-- This needs some logic if they already logged in for l8r-->
+            <li class="nav-item" style="float:right"><a href="#about">About</a></li>
+        </ul>
+    </div>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="prompt-title">Create Account</h1>
+            <form action="{% url 'createUser' %}" method="POST" class="create-item-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="user-create-input">
+                    <input name="email" id="email" type="text" class="email-input" placeholder="Email">
+                </div>             
+                <div class="user-create-input">
+                    <input name="password" id="password" type="password" class="password-input" placeholder="Password"> 
+                </div>
+                <div class="user-create-input">
+                    <input type="password" id="Password2" class="password-input" placeholder="Repeat Password"> 
+                </div>
+                <div class="user-create-input">
+                    <p id="error-message" style="color: red;" hidden="true">Passwords don't match!</p>
+                </div>
+                <div class="submit-button" class="user-create-input">
+                    <button class="create-item-button" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
