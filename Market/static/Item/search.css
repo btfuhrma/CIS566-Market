@@ -25,6 +25,8 @@
     width: 100%; /* Scales the image to fit its container */
     max-width: 300px; /* Sets a maximum width */
     height: auto; /* Maintains aspect ratio */
+    padding-left: 7%;
+    padding-top: 7%;
 }
 .search-item-title{
     align-items: top;
