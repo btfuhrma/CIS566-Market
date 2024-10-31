@@ -12,6 +12,8 @@
 .search-items{
     width: 99%;
     text-align: left;
+    flex-direction: row;
+    display: flex;
     align-items: left;
 }
 .search-item-info{
@@ -29,11 +31,26 @@
     padding-top: 7%;
 }
 .search-item-title{
-    align-items: top;
-    text-align: top;
+    margin: 0; /* Remove default margins */
+    font-size: 1em; /* Adjust size as needed */
+    font-weight: bold; /* Optional: make the title bold */
+    text-align: center;
 }
 .search-item{
     background-color: grey;
-    width: 100%;
+    width: 20%;
     border-radius: 10px;
+    margin-right: 1%;
+}
+.search-td{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    margin-bottom: 10px; /* Space between items */
+}
+.search-item-desc{
+    margin: 0; /* Remove default margins */
+}
+.search-price{
+    text-align: center;
+    align-items: center;
 }
