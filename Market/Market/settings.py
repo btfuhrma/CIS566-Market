@@ -124,6 +124,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  # or the correct path to your static files
 ]
 
+LOGIN_URL = '/app_user/login'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

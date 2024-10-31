@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import Item
 from .models import ItemBuilder
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
@@ -19,6 +20,7 @@ def search(request):
 
     return render(request, "Item/search.html", context)
 
+@login_required
 def createItem(request):
     return render(request, "Item/createItem.html")
 
