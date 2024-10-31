@@ -35,7 +35,7 @@
                 </div>
                 <div class="search-item-info search-td">
                     <div class="search-item-title">
-                        <p>Title: {{item.title}}</p>
+                        <a href="{% url 'showItem' item.id %}">{{ item.title }}</a>
                     </div>
                     <div class="search-item-desc">
                         <p>Description: {{ item.description }}</p>

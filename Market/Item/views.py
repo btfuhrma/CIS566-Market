@@ -4,6 +4,7 @@ from django.template import loader
 from .models import Item
 from .models import ItemBuilder
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
 def index(request):
@@ -41,3 +42,7 @@ def create(request):
         builder.set_image(image)
         builder.build()
     return render(request, "Item/index.html")
+
+def showItem(request, id):
+    item = get_object_or_404(Item, id=id)
+    return render(request, 'Item/showItem.html', {'item': item})

@@ -6,5 +6,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("search", views.search, name="search"),
     path("createItem", views.createItem, name="createItem"),
-    path("create", views.create, name="create")
+    path("create", views.create, name="create"),
+    path('item/<int:id>/', views.showItem, name='showItem'),
 ]
