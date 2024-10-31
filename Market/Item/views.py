@@ -11,9 +11,9 @@ def index(request):
 def search(request):
     if request.method == "GET":
         title = request.GET.get('title', '')
-        results = Item.objects.filter(title__icontains=title)
+        items = Item.objects.filter(title__icontains=title)
 
-    context = {'results' : results,
+    context = {'items' : items,
                'title': title
             }
 

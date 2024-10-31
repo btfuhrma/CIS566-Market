@@ -1,0 +1,37 @@
+.search-container{
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    margin-top: 2%;
+}
+.search-title{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+.search-items{
+    width: 99%;
+    text-align: left;
+    align-items: left;
+}
+.search-item-info{
+    display: inline-block;
+    margin-right: 15%;
+    align-items: left;
+    width: auto;
+    height: 15%;
+}
+.search-img img {
+    width: 100%; /* Scales the image to fit its container */
+    max-width: 300px; /* Sets a maximum width */
+    height: auto; /* Maintains aspect ratio */
+}
+.search-item-title{
+    align-items: top;
+    text-align: top;
+}
+.search-item{
+    background-color: grey;
+    width: 100%;
+    border-radius: 10px;
+}
