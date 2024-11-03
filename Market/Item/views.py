@@ -10,11 +10,13 @@ from django.shortcuts import render, get_object_or_404
 from .models import Item, Purchase, Cart
 
 def index(request):
+    return render(request, "Item/index.html")
+
+@login_required
+def purchases(request):
     purchases = Purchase.objects.filter(user=request.user)
     cart_items = Cart.objects.filter(user=request.user)  # Retrieve items in the cart for the user
-    return render(request, "Item/index.html", {'purchases': purchases, 'cart_items': cart_items})
-
-
+    return render(request, "Item/purchases.html", {'purchases': purchases, 'cart_items': cart_items})
 
 def search(request):
     if request.method == "GET":
@@ -56,6 +58,7 @@ def showItem(request, id):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Item, Purchase
 
+@login_required
 def buy(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     
@@ -84,6 +87,7 @@ def buy(request, item_id):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Item, Purchase
 
+@login_required
 def delete_purchase(request, purchase_id):
     purchase = get_object_or_404(Purchase, id=purchase_id, user=request.user)  
     purchase.delete()

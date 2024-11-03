@@ -1,11 +1,28 @@
 <!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'nav/nav.css' %}">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchase Confirmation</title>
+    <link rel="stylesheet" href="{% static 'nav/nav.css' %}">
 </head>
 <body>
+    <div class="nav-bar">
+        <ul class="nav-list">
+            <li class="nav-item"><a class="active" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item"><a href="#news">My Items</a></li>
+            <li class="nav-item"><a href="{% url 'purchases' %}">Purchases</a></li>
+            <li class="nav-item"><a href="{% url 'createItem' %}">Create Listing</a></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item" style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li class="nav-item" style="float:right"><a href="{% url 'loginPage' %}">Login</a></li>
+            {% endif %}
+            <li class="nav-item" style="float:right"><a href="#about">About</a></li>
+        </ul>
+    </div>
     <h1>Purchase Confirmation</h1>
     <p>Thank you, {{ name }}! Your purchase for "{{ item.title }}" has been successfully completed.</p>
     <a href="{% url 'index' %}">Return to Home</a>
