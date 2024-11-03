@@ -21,7 +21,7 @@ def purchases(request):
 def search(request):
     if request.method == "GET":
         title = request.GET.get('title', '')
-        items = Item.objects.filter(title__icontains=title)
+        items = Item.objects.filter(title__icontains=title, is_sold=False)
 
     context = {'items' : items,
                'title': title
