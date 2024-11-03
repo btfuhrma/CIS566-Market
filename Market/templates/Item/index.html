@@ -34,7 +34,26 @@
                     <button class="search-button" type="submit">Search</button>
                 </div>
             </form>
+
         </div>
-    </div>
-</body>
-</html>
+        <div class="purchase-history">
+            <h2>Your Purchase History</h2>
+            {% if purchases %}
+                <ul>
+                    {% for purchase in purchases %}
+                        <li>
+                            <strong>{{ purchase.item.title }}</strong> - {{ purchase.item.price }}
+                            <p>Purchased on: {{ purchase.created_at|date:"F j, Y" }}</p>
+                            <form action="{% url 'delete_purchase' purchase.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no purchases yet.</p>
+            {% endif %}
+        </div>
+    </body>
+    </html>

@@ -7,8 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
+from .models import Item, Purchase, Cart
+
 def index(request):
-    return render(request, "Item/index.html")
+    purchases = Purchase.objects.filter(user=request.user)
+    cart_items = Cart.objects.filter(user=request.user)  # Retrieve items in the cart for the user
+    return render(request, "Item/index.html", {'purchases': purchases, 'cart_items': cart_items})
+
+
 
 def search(request):
     if request.method == "GET":
@@ -46,3 +52,48 @@ def create(request):
 def showItem(request, id):
     item = get_object_or_404(Item, id=id)
     return render(request, 'Item/showItem.html', {'item': item})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Item, Purchase
+
+def buy(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    
+    if request.method == 'POST':
+        # Get form data
+        name = request.POST.get('name')
+        number = request.POST.get('number')
+        email = request.POST.get('email')
+        payment_info = request.POST.get('payment_info')
+
+        # Save the purchase
+        purchase = Purchase.objects.create(
+            item=item,
+            user=request.user,
+            name=name,
+            number=number,
+            email=email,
+            payment_info=payment_info
+        )
+
+        # Redirect to confirmation page
+        return render(request, 'Item/confirmation.html', {'item': item, 'name': name})
+
+    return render(request, 'Item/buy.html', {'item': item})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Item, Purchase
+
+def delete_purchase(request, purchase_id):
+    purchase = get_object_or_404(Purchase, id=purchase_id, user=request.user)  
+    purchase.delete()
+    return redirect('index')  
+
+
+
+
+
+
+
+
+

@@ -20,11 +20,10 @@ class Item(models.Model):
     addedDate = models.DateTimeField(auto_now_add=True)
     is_sold = models.BooleanField(default=False)
 
-# Instead of factory method, changed to builder pattern as I looked it up and its easier and more applicable
 class ItemBuilder:
 
     def __init__(self):
-        # Setting default values for the builder pattern
+       
         title = 'Title'
         description = 'Item Description'
         price = 0
@@ -71,3 +70,32 @@ class ItemBuilder:
             is_sold=self.is_sold,
             image=self.image,
         )
+    
+    from django.db import models
+from django.contrib.auth.models import User
+
+from django.conf import settings
+from django.db import models
+
+class Purchase(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
+    name = models.CharField(max_length=100)
+    number = models.CharField(max_length=15)
+    email = models.EmailField()
+    payment_info = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)  
+
+    def __str__(self):
+        return f"{self.user.username} - {self.item.title}"
+
+from django.db import models
+from django.conf import settings
+
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    item = models.ForeignKey('Item', on_delete=models.CASCADE)  
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.item.title}"

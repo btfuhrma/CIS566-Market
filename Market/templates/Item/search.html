@@ -23,6 +23,8 @@
             <li class="nav-item" style="float:right"><a href="#about">About</a></li>
         </ul>
     </div>
+
+
     <div class="search-container">
         <div class="search-title">
             <h1 class="search-title">Search for {{ title }}</h1>
@@ -44,12 +46,19 @@
                 <div class="search-item-info search-price">
                     <p>Price: {{ item.price }}</p>
                 </div>
+                <div class="search-item-info">
+                    <form action="{% url 'buy' item.id %}" method="get">
+                        <button type="submit">Buy</button>
+                    </form>
+                </div>
             </div>
             {% empty %}
                     <h3>No items found matching your search.</h3>
             {% endfor %}
             </div>
         </div>
+
+
     </div>
 </body>
 </html>
