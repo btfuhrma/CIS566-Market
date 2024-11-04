@@ -9,8 +9,15 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import Item, Purchase, Cart
 
+from .models import Cart
+
 def index(request):
-    return render(request, "Item/index.html")
+    # Retrieve cart items for the user if authenticated
+    cart_items = Cart.objects.filter(user=request.user) if request.user.is_authenticated else []
+    return render(request, "Item/index.html", {'cart_items': cart_items})
+
+
+
 
 @login_required
 def purchases(request):
@@ -93,10 +100,60 @@ def delete_purchase(request, purchase_id):
     purchase.delete()
     return redirect('index')  
 
+from django.contrib import messages
+from .models import Item, Cart
 
+@login_required
+def add_to_cart(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    
+   
+    cart_item, created = Cart.objects.get_or_create(user=request.user, item=item)
+    
+    if created:
+        messages.success(request, f"{item.title} has been added to your cart.")
+    else:
+        messages.info(request, f"{item.title} is already in your cart.")
+    
+    
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
+from .models import Item, Cart
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def add_to_cart(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    
+    
+    cart_item, created = Cart.objects.get_or_create(user=request.user, item=item)
+    
+    if created:
+        messages.success(request, f"{item.title} has been added to your cart.")
+    else:
+        messages.info(request, f"{item.title} is already in your cart.")
+    
+   
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
+from django.shortcuts import get_object_or_404, redirect
+from .models import Cart
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def delete_from_cart(request, item_id):
+ 
+    cart_item = get_object_or_404(Cart, user=request.user, item_id=item_id)
+    
+
+    cart_item.delete()
+    messages.success(request, "Item removed from your cart.")
+    
+
+    return redirect('index')
 
 
 

@@ -23,6 +23,7 @@
             <li class="nav-item" style="float:right"><a href="#about">About</a></li>
         </ul>
     </div>
+
     <div class="search-div">
         <div class="search-bar">
             <form action="{% url 'search' %}" method="GET" class="search-form">
@@ -34,7 +35,29 @@
                     <button class="search-button" type="submit">Search</button>
                 </div>
             </form>
-
         </div>
-    </body>
-    </html>
+    </div>
+
+    <div class="cart-status">
+        <h2>Your Cart</h2>
+        {% if cart_items %}
+            <ul>
+                {% for cart_item in cart_items %}
+                    <li>
+                        {{ cart_item.item.title }} - ${{ cart_item.item.price }} (Quantity: {{ cart_item.quantity }})
+                
+                        <form action="{% url 'delete_from_cart' cart_item.item.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p>Total Items: {{ cart_items|length }}</p>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

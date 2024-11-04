@@ -24,6 +24,14 @@
         </ul>
     </div>
 
+    <!-- Notification Messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <div class="search-container">
         <div class="search-title">
@@ -33,7 +41,7 @@
             {% for item in items %}
             <div class="search-item">
                 <div class="search-item-info search-img">
-                    <img src="{{ item.image.url }}" alt="{{item.title}}">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
                 </div>
                 <div class="search-item-info search-td">
                     <div class="search-item-title">
@@ -47,18 +55,33 @@
                     <p>Price: {{ item.price }}</p>
                 </div>
                 <div class="search-item-info">
+                    <form action="{% url 'add_to_cart' item.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Add to Cart</button>
+                    </form>
                     <form action="{% url 'buy' item.id %}" method="get">
                         <button type="submit">Buy</button>
+                            <div class="cart-status">
+        <h2>Your Cart</h2>
+        {% if cart_items %}
+            <ul>
+                {% for cart_item in cart_items %}
+                    <li>{{ cart_item.item.title }} - ${{ cart_item.item.price }} (Quantity: {{ cart_item.quantity }})</li>
+                {% endfor %}
+            </ul>
+            <p>Total Items: {{ cart_items|length }}</p>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+</div>
                     </form>
                 </div>
             </div>
             {% empty %}
-                    <h3>No items found matching your search.</h3>
+                <h3>No items found matching your search.</h3>
             {% endfor %}
-            </div>
         </div>
-
-
     </div>
 </body>
 </html>
