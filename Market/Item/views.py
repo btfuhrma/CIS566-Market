@@ -155,6 +155,45 @@ def delete_from_cart(request, item_id):
 
     return redirect('index')
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Item, Purchase
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def buy(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+
+    if request.method == 'POST':
+      
+        name = request.POST.get('name')
+        number = request.POST.get('number')
+        email = request.POST.get('email')
+        payment_info = request.POST.get('payment_info')
+
+        # Save the purchase
+        purchase = Purchase.objects.create(
+            item=item,
+            user=request.user,
+            name=name,
+            number=number,
+            email=email,
+            payment_info=payment_info
+        )
+
+        # Send email confirmation
+        subject = f"Purchase Confirmation for {item.title}"
+        message = f"Dear {name},\n\nThank you for purchasing {item.title}!\n\nOrder Details:\n- Item: {item.title}\n- Price: ${item.price}\n- Phone: {number}\n- Payment Info: {payment_info}\n\nWe will process your order shortly."
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+
+        send_mail(subject, message, from_email, recipient_list)
+
+       
+        return render(request, 'Item/confirmation.html', {'item': item, 'name': name})
+
+    return render(request, 'Item/buy.html', {'item': item})
 
 
 
