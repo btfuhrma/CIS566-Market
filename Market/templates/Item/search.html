@@ -61,7 +61,15 @@
                     </form>
                     <form action="{% url 'buy' item.id %}" method="get">
                         <button type="submit">Buy</button>
-                            <div class="cart-status">
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+                <p>No items found</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="cart-status">
         <h2>Your Cart</h2>
         {% if cart_items %}
             <ul>
@@ -73,15 +81,6 @@
         {% else %}
             <p>Your cart is empty.</p>
         {% endif %}
-    </div>
-</div>
-                    </form>
-                </div>
-            </div>
-            {% empty %}
-                <h3>No items found matching your search.</h3>
-            {% endfor %}
-        </div>
     </div>
 </body>
 </html>
