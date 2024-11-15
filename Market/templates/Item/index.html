@@ -6,30 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <link rel="stylesheet" href="{% static 'Item/index.css' %}">
-    <link rel="stylesheet" href="{% static 'nav/nav.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'nav/nav.css' %}"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="nav-bar">
-        <ul class="nav-list">
-            <li class="nav-item"><a class="active" href="{% url 'index' %}">Home</a></li>
-            <li class="nav-item"><a href="#news">My Items</a></li>
-            <li class="nav-item"><a href="{% url 'purchases' %}">Purchases</a></li>
-            <li class="nav-item"><a href="{% url 'createItem' %}">Create Listing</a></li>
-            {% if user.is_authenticated %}
-                <li class="nav-item" style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-                <li class="nav-item" style="float:right"><a href="{% url 'loginPage' %}">Login</a></li>
-            {% endif %}
-            <li class="nav-item" style="float:right"><a href="#about">About</a></li>
-        </ul>
+    <div class="w-full bg-zinc-800 h-20 flex justify-between items-center px-8">
+        <nav class="flex items-center w-full">
+            <div class="flex space-x-8">
+                <a href="{% url 'index' %}" class="text-white hover:text-gray-300 block px-4 py-2">Home</a>
+                <a href="#news" class="text-white hover:text-gray-300 block px-4 py-2">My Items</a>
+                <a href="{% url 'purchases' %}" class="text-white hover:text-gray-300 block px-4 py-2">Purchases</a>
+                <a href="{% url 'createItem' %}" class="text-white hover:text-gray-300 block px-4 py-2">Create Listing</a>
+                <a href="{% url 'viewCart' %}" class="text-white hover:text-gray-300 block px-4 py-2">View Cart</a>
+            </div>
+            <h1 class="text-4xl font-bold text-white absolute left-1/2 -translate-x-1/2">Market</h1>
+            <div class="ml-auto flex space-x-8">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="text-white hover:text-gray-300 block px-4 py-2">Logout</a>
+                {% else %}
+                    <a href="{% url 'loginPage' %}" class="text-white hover:text-gray-300 block px-4 py-2">Login</a>
+                {% endif %}
+            </div>
+        </nav>
     </div>
+    
+    
 
-    <div class="search-div">
+    <div class="w-full justify-center text-center my-16">
         <div class="search-bar">
             <form action="{% url 'search' %}" method="GET" class="search-form">
                 {% csrf_token %}
                 <div class="search-box">
-                    <input class="search-input" type="text" name="title" placeholder="What Item Are You Looking For?" required>
+                    <input class="border border-black w-[40%] h-16 text-2xl my-6" type="text" name="title" placeholder="What Item Are You Looking For?" required>
                 </div>
                 <div class="search-button-div">
                     <button class="search-button" type="submit">Search</button>
@@ -38,7 +47,25 @@
         </div>
     </div>
 
-    <div class="cart-status">
+    <div class="w-full">
+        <div class="w-[100%] justify-center text-center my-6">
+            <h1 class="text-xl font-bold">Recently Added Items</h1>
+        </div>
+        <div class="w-[90%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {% for item in recent_items %}
+                <div class="bg-zinc-800 p-4 rounded-lg shadow-lg">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h2 class="text-xl font-bold text-white">{{ item.title }}</h2>
+                    <p class="text-white mb-4">{{ item.description|truncatewords:20 }}</p>
+                    <p class="text-lg font-semibold text-white">${{ item.price }}</p>
+                    <p class="text-sm text-white">Added on: {{ item.addedDate|date:"M d, Y" }}</p>
+                    <a href="{% url 'showItem' item.id %}" class="block mt-4 text-center bg-blue-500 text-white py-2 rounded hover:bg-blue-600">View Item</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- <div class="cart-status">
         <h2>Your Cart</h2>
         {% if cart_items %}
             <ul>
@@ -57,7 +84,7 @@
         {% else %}
             <p>Your cart is empty.</p>
         {% endif %}
-    </div>
+    </div> -->
 </body>
 </html>
 

@@ -22,7 +22,7 @@ def login(request):
         if user is not None:
             # Log the user in
             auth_login(request, user)
-            return render(request, template_name="Item/index.html")  # Redirect to a home or dashboard page
+            return render(request, template_name="Item/index.html")
         else:
             # Invalid login details
             messages.error(request, "Invalid email or password.")

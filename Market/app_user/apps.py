@@ -7,9 +7,9 @@ class AppUserConfig(AppConfig):
 
     def ready(self):
         User = get_user_model()
-        email = 'admin'  # Specify your admin email
-        password = 'password'    # Specify your admin password
+        email = 'admin'
+        password = 'password'
 
-        # Check if the admin user exists
+        
         if not User.objects.filter(email=email).exists():
             User.objects.create_superuser(email=email, password=password)
