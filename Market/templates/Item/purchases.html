@@ -29,24 +29,32 @@
             </div>
         </nav>
     </div>
-    <div class="purchase-history">
-        <h2>Your Purchase History</h2>
-        {% if purchases %}
-            <ul>
-                {% for purchase in purchases %}
-                    <li>
-                        <strong>{{ purchase.item.title }}</strong> - {{ purchase.item.price }}
-                        <p>Purchased on: {{ purchase.created_at|date:"F j, Y" }}</p>
-                        <form action="{% url 'delete_purchase' purchase.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit">Delete</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>You have no purchases yet.</p>
-        {% endif %}
+    <div class="w-[70%] mx-auto grid grid-cols-1 py-6">
+        {% for purchase in purchases %}
+            <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-48">
+                <img src="{{ purchase.item.image.url }}" alt="{{ purchase.item.title }}" class="w-40 h-40 object-cover rounded-lg mr-4">
+    
+                <div class="flex-1">
+                    <a href="{% url 'showItem' purchase.item.id %}" class="text-lg font-semibold text-blue-600 hover:text-blue-800">
+                        {{ item.title }}
+                    </a>
+                    <p class="text-white text-sm mb-4">{{ purchase.item.description|truncatewords:15 }}</p>
+                </div>
+    
+                <div class="text-lg font-semibold text-white mr-4">
+                    ${{ purchase.item.price }}
+                </div>
+    
+                <div class="text-center justify-center">
+                    <form action="{% url 'delete_purchase' purchase.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="text-white text-center justify-center">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center col-span-full text-lg text-gray-600">Cart is Empty</p>
+        {% endfor %}
     </div>
 </body>
 </html>
