@@ -30,23 +30,23 @@
             </div>
         </nav>
     </div>
-    <div class="create-item-outer">
-        <div class="create-item-inner">
+    <div class="create-item-outer justify-center items-center flex">
+        <div class="create-item-inner bg-zinc-800 py-6 w-[50%] justify-center items-center rounded-lg">
             <form action="{% url 'create' %}" method="POST" class="create-item-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="category">
                     <select name="category" required>
-                        <option value="" disabled selected>Select a category</option> <!-- Non-selectable placeholder -->
+                        <option value="" disabled selected>Select a category</option>
                         <option value="homemade">Homemade</option>
                         <option value="collectible">Collectible</option>
                         <option value="general_market">General market</option>
                     </select>
                 </div>
                 <div class="item-title">
-                    <textarea class="item-title-input" type="text" name="title" placeholder="Item Title" required></textarea>
+                    <textarea class="item-title-input  w-[40%] text-center" type="text" name="title" placeholder="Item Title" required></textarea>
                 </div>
                 <div class="item-description">
-                    <textarea class="item-description-input" name="description" placeholder="Item Description" required></textarea>
+                    <textarea class="item-description-input w-[40%] text-center" name="description" placeholder="Item Description" required></textarea>
                 </div>
                 <div class="item-price">
                     <input type="number" name="price" placeholder="Price" required>
