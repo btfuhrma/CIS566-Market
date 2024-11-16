@@ -31,12 +31,14 @@
     </div>
     <div class="w-[70%] mx-auto grid grid-cols-1 py-6">
         {% for purchase in purchases %}
-            <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-48">
-                <img src="{{ purchase.item.image.url }}" alt="{{ purchase.item.title }}" class="w-40 h-40 object-cover rounded-lg mr-4">
+            <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-64">
+                <div class="w-52 h-52 flex items-center justify-center overflow-hidden rounded-lg mr-4 bg-gray-700">
+                    <img src="{{ purchase.item.image.url }}" alt="{{ purchase.item.title }}" class="w-full h-full object-contain">
+                </div>
     
                 <div class="flex-1">
                     <a href="{% url 'showItem' purchase.item.id %}" class="text-lg font-semibold text-blue-600 hover:text-blue-800">
-                        {{ item.title }}
+                        {{ purchase.item.title }}
                     </a>
                     <p class="text-white text-sm mb-4">{{ purchase.item.description|truncatewords:15 }}</p>
                 </div>
@@ -48,7 +50,7 @@
                 <div class="text-center justify-center">
                     <form action="{% url 'delete_purchase' purchase.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="text-white text-center justify-center">Delete</button>
+                        <button type="submit" class="text-white bg-red-500 px-4 py-2 rounded hover:bg-red-600">Delete</button>
                     </form>
                 </div>
             </div>
@@ -56,6 +58,7 @@
             <p class="text-center col-span-full text-lg text-gray-600">Cart is Empty</p>
         {% endfor %}
     </div>
+    
 </body>
 </html>
 

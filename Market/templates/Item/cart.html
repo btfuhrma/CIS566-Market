@@ -40,8 +40,10 @@
 
     <div class="w-[70%] mx-auto grid grid-cols-1">
         {% for item in cartItems %}
-            <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-48">
-                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-40 h-40 object-cover rounded-lg mr-4">
+            <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-64">
+                <div class="w-52 h-52 flex items-center justify-center overflow-hidden rounded-lg mr-4 bg-gray-700">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-contain">
+                </div>
     
                 <div class="flex-1">
                     <a href="{% url 'showItem' item.id %}" class="text-lg font-semibold text-blue-600 hover:text-blue-800">
