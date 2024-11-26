@@ -3,6 +3,7 @@ from .models import AppUser
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth import logout
+from services import DatabaseSingleton
 
 # Create your views here.
 def createAccount(request):
@@ -13,11 +14,13 @@ def loginPage(request):
 
 def login(request):
     if request.method == "POST":
+        db = DatabaseSingleton()
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
 
         # Authenticate the user
-        user = authenticate(request, email=email, password=password)
+        
+        user = db.login(request, email, password)
 
         if user is not None:
             # Log the user in
@@ -32,10 +35,11 @@ def login(request):
 
 def createUser(request):
     if request.method == "POST":
+        db = DatabaseSingleton()
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
         userManager = AppUser.objects
-        userManager.create_user(email=email, password=password)
+        db.createUser(userManager, email, password)
     return render(request, "app_user/login.html")
 
 def logoutUser(request):

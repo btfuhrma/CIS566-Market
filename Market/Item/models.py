@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from datetime import datetime
+from django.conf import settings
+from django.contrib.auth.models import User
 
 User = get_user_model()  # This gets the current user model
 
@@ -70,12 +72,7 @@ class ItemBuilder:
             is_sold=self.is_sold,
             image=self.image,
         )
-    
-    from django.db import models
-from django.contrib.auth.models import User
 
-from django.conf import settings
-from django.db import models
 
 class Purchase(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
