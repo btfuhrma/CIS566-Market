@@ -6,23 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <link rel="stylesheet" href="{% static 'app_user/create.css' %}">
-    <link rel="stylesheet" href="{% static 'nav/nav.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'nav/nav.css' %}"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="{% static 'app_user/create.js' %}"></script>
 </head>
 <body>
-    <div class="nav-bar">
-        <ul class="nav-list">
-            <li class="nav-item"><a class="active" href="{% url 'index' %}">Home</a></li>
-            <li class="nav-item"><a href="#news">My Items</a></li>
-            <li class="nav-item"><a href="{% url 'purchases' %}">Purchases</a></li>
-            <li class="nav-item"><a href="{% url 'createItem' %}">Create Listing</a></li>
-            {% if user.is_authenticated %}
-                <li class="nav-item" style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-                <li class="nav-item" style="float:right"><a href="{% url 'loginPage' %}">Login</a></li>
-            {% endif %}            
-            <li class="nav-item" style="float:right"><a href="#about">About</a></li>
-        </ul>
+    <div class="w-full bg-zinc-800 h-20 flex justify-between items-center px-8">
+        <nav class="flex items-center w-full">
+            <div class="flex space-x-8">
+                <a href="{% url 'index' %}" class="text-white hover:text-gray-300 block px-4 py-2">Home</a>
+                <a href="{% url 'myItems' %}" class="text-white hover:text-gray-300 block px-4 py-2">My Items</a>
+                <a href="{% url 'purchases' %}" class="text-white hover:text-gray-300 block px-4 py-2">Purchases</a>
+                <a href="{% url 'createItem' %}" class="text-white hover:text-gray-300 block px-4 py-2">Create Listing</a>
+                <a href="{% url 'viewCart' %}" class="text-white hover:text-gray-300 block px-4 py-2">View Cart</a>
+            </div>
+            <h1 class="text-4xl font-bold text-white absolute left-1/2 -translate-x-1/2">Market</h1>
+            <div class="ml-auto flex space-x-8">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="text-white hover:text-gray-300 block px-4 py-2">Logout</a>
+                {% else %}
+                    <a href="{% url 'loginPage' %}" class="text-white hover:text-gray-300 block px-4 py-2">Login</a>
+                {% endif %}
+            </div>
+        </nav>
     </div>
     <div class="login-container">
         <div class="login-box">

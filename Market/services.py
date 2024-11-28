@@ -37,7 +37,7 @@ class DatabaseSingleton:
         description = request.POST.get('description', '')
         price = request.POST.get('price', '')
         category = request.POST.get('category', '')
-        image = request.POST.get('image', '')
+        image = request.FILES.get('image')
         builder = ItemBuilder()
         builder.set_category(category)
         builder.set_description(description)
@@ -106,9 +106,17 @@ class DatabaseSingleton:
         return created
 
     def deleteFromCart(self, request, itemId):
-        cart_item = get_object_or_404(Cart, user=request.user, item_id=itemId)
+        cart_item = get_object_or_404(Cart, user=request.user, id=itemId)
         cart_item.delete()
 
     def recentItems(self):
         recentItems = Item.objects.all().order_by('-addedDate')[:5]
         return recentItems
+    
+    def getMyItems(self, request):
+        myItems = Item.objects.filter(user=request.user)
+        return myItems
+    
+    def deleteItem(self, request, itemId):
+        item = get_object_or_404(Item, user=request.user, id=itemId)
+        item.delete()

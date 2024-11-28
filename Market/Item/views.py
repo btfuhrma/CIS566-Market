@@ -153,3 +153,24 @@ def delete_from_cart(request, item_id):
     messages.success(request, "Item removed from your cart.")
 
     return redirect('index')
+
+@login_required
+def myItems(request):
+    db = DatabaseSingleton()
+    myItems = db.getMyItems(request)
+
+    return render(request, "Item/myItems.html", {"items" : myItems})
+
+@login_required
+def deleteItem(request, item_id):
+    db = DatabaseSingleton()
+    db.deleteItem(request, item_id)
+    messages.success(request, "Item removed from your cart.")
+    myItems = db.getMyItems(request)
+
+    return render(request, "Item/myItems.html", {"items" : myItems})
+
+@login_required
+def editItem(request, item_id):
+    if request.method == "POST":
+        pass
