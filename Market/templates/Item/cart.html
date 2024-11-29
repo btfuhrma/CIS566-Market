@@ -60,6 +60,9 @@
                     <form action="{% url 'buy' item.id %}" method="get" class="w-full">
                         <button type="submit" class="w-24 bg-green-500 text-white py-2 rounded hover:bg-green-600">Buy</button>
                     </form>
+                    <form action="{% url 'delete_from_cart' item.id %}" method="get" class="w-full">
+                        <button type="submit" class="w-24 bg-green-500 text-white py-2 rounded hover:bg-green-600 my-5">Remove</button>
+                    </form>
                 </div>
             </div>
         {% empty %}

@@ -90,11 +90,9 @@ from django.db import models
 from django.conf import settings
 
 class Cart(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    item = models.ForeignKey('Item', on_delete=models.CASCADE)  
-    added_at = models.DateTimeField(auto_now_add=True)
-    class Meta:
-        unique_together = ('user', 'item')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="cart")
+    items = models.ManyToManyField('Item', related_name='carts')
 
     def __str__(self):
-        return f"{self.user.username} - {self.item.title}"
+        item_titles = ", ".join([item.title for item in self.items.all()])
+        return f"{self.user.username}'s Cart: {item_titles}"

@@ -152,7 +152,7 @@ def delete_from_cart(request, item_id):
     db.deleteFromCart(request, item_id)
     messages.success(request, "Item removed from your cart.")
 
-    return redirect('index')
+    return viewCart(request)
 
 @login_required
 def myItems(request):

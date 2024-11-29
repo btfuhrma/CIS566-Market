@@ -19,9 +19,9 @@ class DatabaseSingleton:
         return user
     
     def getCartItems(self, request):
-        carts = Cart.objects.filter(user=request.user)
-        items_in_cart = [cart_item.item for cart_item in carts]
-        return items_in_cart
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_items = cart.items.all()
+        return cart_items
     
     def getPurchases(self, request):
         purchases = Purchase.objects.filter(user=request.user)
@@ -102,12 +102,18 @@ class DatabaseSingleton:
 
     def addToCart(self, request, itemId):
         item = get_object_or_404(Item, id=itemId)
-        cart_item, created = Cart.objects.get_or_create(user=request.user, item=item)
-        return created
+        cart, created = Cart.objects.get_or_create(user=request.user)
+
+        if item not in cart.items.all():
+            cart.items.add(item)
+            return created
 
     def deleteFromCart(self, request, itemId):
-        cart_item = get_object_or_404(Cart, user=request.user, id=itemId)
-        cart_item.delete()
+        cart = get_object_or_404(Cart, user=request.user)
+        item = get_object_or_404(Item, id=itemId)
+
+        if item in cart.items.all():
+            cart.items.remove(item)
 
     def recentItems(self):
         recentItems = Item.objects.all().order_by('-addedDate')[:5]
