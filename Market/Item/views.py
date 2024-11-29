@@ -9,10 +9,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from services import DatabaseSingleton
-# Create your views here.
 
 def index(request):
-    # Retrieve cart items for the user if authenticated
     db = DatabaseSingleton()
     recent_items = db.recentItems()
     return render(request, "Item/index.html", {"recent_items" : recent_items})

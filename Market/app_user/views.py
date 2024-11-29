@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth import logout
 from services import DatabaseSingleton
+from Item.views import index
 
 # Create your views here.
 def createAccount(request):
@@ -25,7 +26,7 @@ def login(request):
         if user is not None:
             # Log the user in
             auth_login(request, user)
-            return render(request, template_name="Item/index.html")
+            return index(request)
         else:
             # Invalid login details
             messages.error(request, "Invalid email or password.")
