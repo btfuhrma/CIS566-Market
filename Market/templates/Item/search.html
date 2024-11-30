@@ -33,6 +33,33 @@
         <h1 class="text-3xl font-bold text-gray-800">Search Results for "{{ title }}"</h1>
     </div>
 
+    <div class="w-full justify-center text-center my-6">
+        <form method="GET" action="{% url 'search' %}" class="flex items-center justify-center space-x-4">
+            <input type="hidden" name="title" value="{{ request.GET.title }}" />
+        
+            <label for="category-sort" class="text-lg font-semibold">Sort by Category:</label>
+            <select id="category-sort" name="category" class="border border-black h-10 px-2 text-xl">
+                <option value="all" {% if request.GET.category == "all" or not request.GET.category %}selected{% endif %}>
+                    All Categories
+                </option>
+                <option value="handmade" {% if request.GET.category == "handmade" %}selected{% endif %}>
+                    Handmade
+                </option>
+                <option value="collectible" {% if request.GET.category == "collectible" %}selected{% endif %}>
+                    Collectible
+                </option>
+                <option value="general_market" {% if request.GET.category == "general_market" %}selected{% endif %}>
+                    General Market
+                </option>
+            </select>
+        
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                Apply
+            </button>
+        </form>
+    </div>
+    
+
     <div class="w-[99%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {% for item in items %}
             <div class="bg-zinc-800 p-4 rounded-lg shadow-lg">

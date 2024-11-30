@@ -29,7 +29,10 @@ class DatabaseSingleton:
     
     def searchItem(self, request):
         title = request.GET.get('title', '')
+        category = request.GET.get('category', '')
         items = Item.objects.filter(title__icontains=title, is_sold=False)
+        if len(category) > 0 and category != 'all':
+            items = items.filter(category=category)
         return items, title
 
     def createItem(self, request):
