@@ -83,16 +83,16 @@
     </div>
 
     <div class="flex justify-center space-x-4 mt-8">
-
-        {% if items.has_previous %}
-            <a href="?page={{ items.previous_page_number }}&title={{ title }}&category={{ request.GET.category }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Previous</a>
+ 
+        {% if previous_page %}
+            <a href="?page={{ previous_page }}&title={{ title }}&category={{ request.GET.category }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Previous</a>
         {% else %}
             <span class="bg-gray-400 text-white py-2 px-4 rounded">Previous</span>
         {% endif %}
 
 
-        {% if items.has_next %}
-            <a href="?page={{ items.next_page_number }}&title={{ title }}&category={{ request.GET.category }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Next</a>
+        {% if next_page %}
+            <a href="?page={{ next_page }}&title={{ title }}&category={{ request.GET.category }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Next</a>
         {% else %}
             <span class="bg-gray-400 text-white py-2 px-4 rounded">Next</span>
         {% endif %}
@@ -100,6 +100,8 @@
 
 </body>
 </html>
+
+
 
 
 
