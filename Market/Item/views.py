@@ -172,3 +172,31 @@ def deleteItem(request, item_id):
 def editItem(request, item_id):
     if request.method == "POST":
         pass
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+def search(request):
+    if request.method == "GET":
+        db = DatabaseSingleton()
+        items, title = db.searchItem(request)
+
+    
+        paginator = Paginator(items, 1) 
+        page = request.GET.get('page')
+
+        try:
+            paginated_items = paginator.page(page)
+        except PageNotAnInteger:
+ 
+            paginated_items = paginator.page(1)
+        except EmptyPage:
+
+            paginated_items = paginator.page(paginator.num_pages)
+
+        context = {
+            'items': paginated_items,
+            'title': title,
+        }
+
+    return render(request, "Item/search.html", context)
+
+
