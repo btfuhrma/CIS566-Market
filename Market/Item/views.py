@@ -18,7 +18,8 @@ def index(request):
 @login_required
 def purchases(request):
     db = DatabaseSingleton()
-    purchases = db.getPurchases()
+
+    db.getPurchases(request)
     return render(request, "Item/purchases.html", {'purchases': purchases})
 
 def search(request):
@@ -85,6 +86,7 @@ def buyCart(request):
         cartItems = db.getCartItems(request)
 
         db.createPurchaseCart(request)
+        
 
         subject = f"Purchase Confirmation for Your Order"
         item_details = "\n".join(
