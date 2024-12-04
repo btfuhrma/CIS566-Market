@@ -174,40 +174,43 @@ def editItem(request, item_id):
         pass
 
 
-
 def search(request):
     if request.method == "GET":
         db = DatabaseSingleton()
         items, title = db.searchItem(request)
 
-        page = request.GET.get('page', 1)
+       
+        page = int(request.GET.get('page', 1))
         
       
         items_per_page = 1
 
-        start_index = (int(page) - 1) * items_per_page
+      
+        start_index = (page - 1) * items_per_page
         end_index = start_index + items_per_page
 
       
         paginated_items = items[start_index:end_index]
 
-     
-        total_pages = (len(items) + items_per_page - 1) // items_per_page  
+    
+        total_pages = (len(items) + items_per_page - 1) // items_per_page  # Using ceiling division for total pages
+
+       
+        previous_page = page - 1 if page > 1 else None
+        next_page = page + 1 if page < total_pages else None
 
     
-        previous_page = int(page) - 1 if int(page) > 1 else None
-        next_page = int(page) + 1 if int(page) < total_pages else None
-
         context = {
             'items': paginated_items,
             'title': title,
-            'current_page': int(page),
+            'current_page': page,
             'total_pages': total_pages,
             'previous_page': previous_page,
             'next_page': next_page,
         }
 
-    return render(request, "Item/search.html", context)
+       
+        return render(request, "Item/search.html", context)
 
 
 
