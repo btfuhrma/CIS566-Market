@@ -172,34 +172,34 @@ def deleteItem(request, item_id):
 def editItem(request, item_id):
     if request.method == "POST":
         pass
-
+from services import Iterator  
 
 def search(request):
     if request.method == "GET":
         db = DatabaseSingleton()
         items, title = db.searchItem(request)
 
-       
+      
+        items_per_page = 1  
+        iterator = Iterator(items, items_per_page)
+
+      
         page = int(request.GET.get('page', 1))
-        
-      
-        items_per_page = 1
 
       
-        start_index = (page - 1) * items_per_page
-        end_index = start_index + items_per_page
-
-      
-        paginated_items = items[start_index:end_index]
-
-    
-        total_pages = (len(items) + items_per_page - 1) // items_per_page  # Using ceiling division for total pages
+        iterator.current_page = page
 
        
+        paginated_items = iterator.getCurrentPageItems()
+
+     
+        total_pages = iterator.getTotalPages()
+
+     
         previous_page = page - 1 if page > 1 else None
         next_page = page + 1 if page < total_pages else None
 
-    
+     
         context = {
             'items': paginated_items,
             'title': title,
@@ -209,8 +209,9 @@ def search(request):
             'next_page': next_page,
         }
 
-       
+      
         return render(request, "Item/search.html", context)
+
 
 
 

@@ -130,42 +130,45 @@ class DatabaseSingleton:
         item = get_object_or_404(Item, user=request.user, id=itemId)
         item.delete()
 
+class Iterator:
+    def __init__(self, items, items_per_page):
+        self.items = items
+        self.items_per_page = items_per_page
+        self.current_page = 1
 
-def search(request):
-    if request.method == "GET":
-        db = DatabaseSingleton()
-        items, title = db.searchItem(request)
-
-
-        page = int(request.GET.get('page', 1))
+    def getNextItems(self):
+ 
+        start_index = self.current_page * self.items_per_page
+        end_index = start_index + self.items_per_page
         
-     
-        items_per_page = 1
+        if start_index < len(self.items):
+           
+            self.current_page += 1
+            return self.items[start_index:end_index]
+        else:
+            return [] 
 
-      
-        start_index = (page - 1) * items_per_page
-        end_index = start_index + items_per_page
+    def getPreviousItems(self):
+        if self.current_page > 1:
+            self.current_page -= 1
 
+       
+        start_index = (self.current_page - 1) * self.items_per_page
+        end_index = start_index + self.items_per_page
 
-        paginated_items = items[start_index:end_index]
+        return self.items[start_index:end_index]
 
+    def getCurrentPageItems(self):
+        
+        start_index = (self.current_page - 1) * self.items_per_page
+        end_index = start_index + self.items_per_page
+        return self.items[start_index:end_index]
 
-        total_pages = (len(items) + items_per_page - 1) // items_per_page 
+    def getCurrentPage(self):
+        return self.current_page
 
-     
-        previous_page = page - 1 if page > 1 else None
-        next_page = page + 1 if page < total_pages else None
+    def getTotalPages(self):
+       
+        return (len(self.items) + self.items_per_page - 1) // self.items_per_page
 
-    
-        context = {
-            'items': paginated_items,
-            'title': title,
-            'current_page': page,
-            'total_pages': total_pages,
-            'previous_page': previous_page,
-            'next_page': next_page,
-        }
-
-  
-        return render(request, "Item/search.html", context)
 
