@@ -41,12 +41,15 @@
                 <div class="user-create-input">
                     <input name="password" id="password" type="password" class="password-input" placeholder="Password"> 
                 </div>
+                
                 <div class="user-create-input">
                     <p style="color: white;">Don't have an account?</p>
                     <a href="{%url 'createAccount'%}" class="create-account">Create Account</a>
                 </div>
                 <div class="submit-button" class="user-create-input">
                     <button class="create-item-button" type="submit">Submit</button>
+                    <a href="{% url 'forgot_password' %}" style="color: #fff; text-decoration: none; display: block; margin-top: 10px;">Forgot Password?</a>
+
                 </div>
             </form>
         </div>

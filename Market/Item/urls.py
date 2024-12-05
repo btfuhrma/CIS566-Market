@@ -15,7 +15,14 @@ urlpatterns = [
     path("viewCart", views.viewCart, name="viewCart"),
     path("buyCart", views.buyCart, name="buyCart"),
     path("myItems", views.myItems, name="myItems"),
-    path("deleteItem/<int:item_id>", views.deleteItem, name="deleteItem")
+    path("deleteItem/<int:item_id>", views.deleteItem, name="deleteItem"),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('password-reset-confirmation/', views.password_reset_confirmation, name='password_reset_confirmation'),
+    path('profile-settings/', views.profile_settings, name='profile_settings'),
+
+
+
+
     
 ]
 

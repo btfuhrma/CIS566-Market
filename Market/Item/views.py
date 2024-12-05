@@ -10,6 +10,34 @@ from django.conf import settings
 from django.contrib import messages
 from services import DatabaseSingleton
 
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def createUser(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+
+        if get_user_model().objects.filter(email=email).exists():
+            messages.error(request, 'A user with this email already exists.')
+            return render(request, 'app_user/create_user.html')
+
+        try:
+          
+            user = get_user_model().objects.create_user(username=username, email=email, password=password)
+            messages.success(request, 'User created successfully.')
+            return redirect('login') 
+        
+        except Exception as e:
+            messages.error(request, f'An error occurred while creating the user: {str(e)}')
+            return render(request, 'app_user/create_user.html')
+
+    return render(request, 'app_user/create_user.html')
+
+
 def index(request):
     db = DatabaseSingleton()
     recent_items = db.recentItems()
@@ -214,6 +242,142 @@ def search(request):
       
         return render(request, "Item/search.html", context)
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+import random
+import string
 
 
+def generate_temp_password(length=8):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(random.choice(characters) for _ in range(length))
 
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        try:
+            user = get_user_model().objects.get(email=email)
+        except get_user_model().DoesNotExist:
+            messages.error(request, 'No user with this email address exists.')
+            return render(request, 'app_user/forgot_password.html')
+
+ 
+        temp_password = generate_temp_password()
+
+       
+        user.set_password(temp_password)
+        user.save()
+
+    
+        send_mail(
+            'Your New Password',
+            f'Your New password is: {temp_password}\n\nPlease use this to log in and change your password.',
+            [user.email],
+            fail_silently=False
+        )
+
+        messages.success(request, 'A temporary password has been sent to your email.')
+        return render(request, 'app_user/forgot_password.html')
+    return render(request, 'app_user/forgot_password.html')
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+
+           
+            if user.check_password('temporary_password'):  
+             
+                return redirect('password_reset_confirmation')
+
+        
+            login(request, user)
+            return redirect('index')  
+        else:
+            messages.error(request, "Invalid credentials.")
+            return redirect('loginPage')  
+    else:
+        form = AuthenticationForm()
+    return render(request, 'app_user/login.html', {'form': form})
+
+
+def password_reset_confirmation(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save() 
+            update_session_auth_hash(request, form.user)  
+            messages.success(request, 'Your password has been reset successfully.')
+            return redirect('login')  
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'app_user/password_reset_confirmation.html', {'form': form})
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+
+def profile_settings(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user) 
+            messages.success(request, 'Your password has been updated successfully.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please fix the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    return render(request, 'app_user/profile_settings.html', {'form': form})
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+     
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('profile_settings')
+
+    
+        user = request.user
+        user.email = email
+        if password:
+            user.set_password(password)
+        
+        user.save()
+
+     
+        update_session_auth_hash(request, user)
+
+        messages.success(request, "Profile updated successfully.")
+        return redirect('index')  
+    
+   
+    return render(request, 'app_user/profile_settings.html')
