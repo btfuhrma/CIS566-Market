@@ -257,7 +257,6 @@ def generate_temp_password(length=8):
     characters = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choice(characters) for _ in range(length))
 
-
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -268,24 +267,31 @@ def forgot_password(request):
             messages.error(request, 'No user with this email address exists.')
             return render(request, 'app_user/forgot_password.html')
 
- 
+    
         temp_password = generate_temp_password()
 
-       
+   
         user.set_password(temp_password)
         user.save()
 
-    
+      
+        subject = 'Your New Password'
+        message = f'Your new password is: {temp_password}\n\nPlease use this to log in and change your password.'
+
+      
         send_mail(
-            'Your New Password',
-            f'Your New password is: {temp_password}\n\nPlease use this to log in and change your password.',
-            [user.email],
+            subject, 
+            message,  
+            'lilacsabri7@gmail.com',  
+            [user.email],  
             fail_silently=False
         )
 
-        messages.success(request, 'A temporary password has been sent to your email.')
+        messages.success(request, 'A temporary password has been sent to your email. Please go back to the login page and login using your new password.')
         return render(request, 'app_user/forgot_password.html')
+
     return render(request, 'app_user/forgot_password.html')
+
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect

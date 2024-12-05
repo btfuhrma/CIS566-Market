@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Settings</title>
     <style>
-     
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -47,9 +46,15 @@
             border-radius: 4px;
             font-size: 1.2rem;
             cursor: pointer;
+            margin-top: 20px; 
         }
         button:hover {
             background-color: #45a049;
+        }
+        .password-toggle {
+            cursor: pointer;
+            color: #04AA6D;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -66,9 +71,11 @@
 
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Enter your new password" required>
+            <span class="password-toggle" onclick="togglePasswordVisibility('password')">Show Password</span>
 
             <label for="confirm_password">Confirm Password</label>
             <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your new password" required>
+            <span class="password-toggle" onclick="togglePasswordVisibility('confirm_password')">Show Password</span>
             
             <button type="submit">Update Profile</button>
         </form>
@@ -76,8 +83,21 @@
         <p><a href="{% url 'index' %}">Go back to Home</a></p>
     </div>
 
+    <script>
+     
+        function togglePasswordVisibility(passwordFieldId) {
+            var passwordField = document.getElementById(passwordFieldId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+
 </body>
 </html>
+
 
 
 
