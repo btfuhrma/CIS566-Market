@@ -11,7 +11,9 @@ urlpatterns = [
     path("createUser", views.createUser, name="createUser"),
     path("loginPage", views.loginPage, name="loginPage"),
     path('logout/', views.logoutUser, name='logout'),
-    path('Item/', include('Item.urls')),  
+    path('Item/', include('Item.urls')),
+    path('profile-settings/', views.profile_settings, name='profile_settings'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
 
 ]
 
