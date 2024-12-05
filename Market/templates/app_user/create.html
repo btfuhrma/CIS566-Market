@@ -39,11 +39,13 @@
                 <div class="user-create-input">
                     <input name="email" id="email" type="text" class="email-input" placeholder="Email">
                 </div>             
-                <div class="user-create-input">
+                <div class="user-create-input relative">
                     <input name="password" id="password" type="password" class="password-input" placeholder="Password"> 
+                    <button type="button" onclick="togglePassword('password')" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white">Show</button>
                 </div>
-                <div class="user-create-input">
-                    <input type="password" id="Password2" class="password-input" placeholder="Repeat Password"> 
+                <div class="user-create-input relative">
+                    <input type="password" id="Password2" class="password-input" placeholder="Repeat Password">
+                    <button type="button" onclick="togglePassword('Password2')" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white">Show</button>
                 </div>
                 <div class="user-create-input">
                     <p id="error-message" style="color: red;" hidden="true">Passwords don't match!</p>
@@ -54,5 +56,20 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function togglePassword(id) {
+            const passwordInput = document.getElementById(id);
+            const button = passwordInput.nextElementSibling;
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                button.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
 </body>
 </html>
+
