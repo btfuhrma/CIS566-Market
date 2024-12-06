@@ -126,7 +126,7 @@ class DatabaseSingleton:
             cart.items.remove(item)
 
     def recentItems(self):
-        recentItems = Item.objects.all().order_by('-addedDate')[:5]
+        recentItems = Item.objects.filter(is_sold=False).order_by('-addedDate')[:4]
         return recentItems
     
     def getMyItems(self, request):
