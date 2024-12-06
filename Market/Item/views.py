@@ -241,3 +241,4 @@ def search(request):
 
       
         return render(request, "Item/search.html", context)
+    
