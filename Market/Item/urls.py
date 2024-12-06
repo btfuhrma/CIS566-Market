@@ -17,6 +17,7 @@ urlpatterns = [
     path("myItems", views.myItems, name="myItems"),
     path("deleteItem/<int:item_id>", views.deleteItem, name="deleteItem"),
     path("mySales", views.mySales, name="mySales"),
+    path("editItem/<int:id>", views.editItem, name="editItem"),
 
 
 

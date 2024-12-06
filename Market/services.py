@@ -152,6 +152,23 @@ class DatabaseSingleton:
             purchase["image"] = item.image.url
             purchases.append(purchase)
         return purchases
+    
+    def editItem(self, request, id):
+        item = get_object_or_404(Item, id=id, user=request.user)
+        category = request.POST.get("category")
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        price = request.POST.get("price")
+
+        item.category = category
+        item.title = title
+        item.description = description
+        item.price = price
+
+        if 'image' in request.FILES:
+            item.image = request.FILES['image']
+
+        item.save()
 
 class Iterator:
     def __init__(self, items, items_per_page):

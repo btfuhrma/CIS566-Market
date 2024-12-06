@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'Item/search.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-full bg-zinc-800">
+        <div class="container mx-auto px-4 pt-4">
+            <h1 class="text-4xl font-bold text-white text-center">Market</h1>
+        </div>
+    
+        <div class="container mx-auto px-4 py-2">
+            <nav class="flex justify-between items-center">
+                <div class="flex">
+                    <a href="{% url 'index' %}" class="text-white hover:text-gray-300 block px-4 py-2">Home</a>
+                    <a href="{% url 'myItems' %}" class="text-white hover:text-gray-300 block px-4 py-2">My Items</a>
+                    <a href="{% url 'purchases' %}" class="text-white hover:text-gray-300 block px-4 py-2">Purchases</a>
+                    <a href="{% url 'createItem' %}" class="text-white hover:text-gray-300 block px-4 py-2">Create Listing</a>
+                    <a href="{% url 'viewCart' %}" class="text-white hover:text-gray-300 block px-4 py-2">View Cart</a>
+                    <a href="{% url 'mySales' %}" class="text-white hover:text-gray-300 block px-4 py-2">My Sales</a>
+                </div>
+    
+                <div class="flex space-x-4">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser and user.is_staff %}
+                            <a href="/admin/" class="text-white hover:text-gray-300 block px-4 py-2">Admin Panel</a>
+                        {% endif %}
+                        <a href="{% url 'profile_settings' %}" class="text-white hover:text-gray-300 block px-4 py-2">Profile Settings</a>
+                        <a href="{% url 'logout' %}" class="text-white hover:text-gray-300 block px-4 py-2">Logout</a>
+                    {% else %}
+                        <a href="{% url 'loginPage' %}" class="text-white hover:text-gray-300 block px-4 py-2">Login</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="w-full justify-center text-center my-4">
+        <h1 class="text-3xl font-bold text-gray-800">Edit Item</h1>
+    </div>
+
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-zinc-800 py-6 px-8 w-full max-w-md rounded-lg">
+            <form action="{% url 'editItem' item.id %}" method="POST" class="space-y-6" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="category">
+                    <label class="block text-white mb-1">Category</label>
+                    <select name="category" class="w-[50%] p-2 rounded bg-gray-700 text-white" required>
+                        <option value="" disabled {% if not item.category %}selected{% endif %}>Select a category</option>
+                        <option value="handmade" {% if item.category == 'handmade' %}selected{% endif %}>Handmade</option>
+                        <option value="collectible" {% if item.category == 'collectible' %}selected{% endif %}>Collectible</option>
+                        <option value="general_market" {% if item.category == 'general_market' %}selected{% endif %}>General Market</option>
+                    </select>
+                </div>
+                
+                <div class="item-title">
+                    <label class="block text-white mb-1">Title</label>
+                    <textarea class="w-full p-2 rounded bg-gray-700 text-white" name="title" placeholder="Item Title" required>{{ item.title }}</textarea>
+                </div>
+                
+                <div class="item-description">
+                    <label class="block text-white mb-1">Description</label>
+                    <textarea class="w-full p-2 rounded bg-gray-700 text-white" name="description" placeholder="Item Description" required>{{ item.description }}</textarea>
+                </div>
+                
+                <div class="item-price">
+                    <label class="block text-white mb-1">Price</label>
+                    <input type="number" class="w-full p-2 rounded bg-gray-700 text-white" name="price" placeholder="Price" value="{{ item.price }}" required>
+                </div>
+                
+                <div class="item-image">
+                    <label for="image" class="block text-white mb-1">Image</label>
+                    <label for="image" class="block text-center bg-gray-700 text-white py-2 px-4 rounded cursor-pointer">Upload Image</label>
+                    <input type="file" name="image" id="image" style="visibility:hidden;" accept="image/*">
+                    {% if item.image %}
+                        <p class="text-white">Current Image</p>
+                        <img src="{{item.image.url}}">
+                    {% endif %}
+                </div>
+                
+                <div class="submit-button">
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

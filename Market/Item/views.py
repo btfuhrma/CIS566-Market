@@ -195,15 +195,9 @@ def myItems(request):
 def deleteItem(request, item_id):
     db = DatabaseSingleton()
     db.deleteItem(request, item_id)
-    messages.success(request, "Item removed from your cart.")
     myItems = db.getMyItems(request)
 
     return render(request, "Item/myItems.html", {"items" : myItems})
-
-@login_required
-def editItem(request, item_id):
-    if request.method == "POST":
-        pass
 
 @login_required
 def mySales(request):
@@ -219,7 +213,7 @@ def search(request):
         items, title = db.searchItem(request)
 
       
-        items_per_page = 1  
+        items_per_page = 4
         iterator = Iterator(items, items_per_page)
 
       
@@ -250,4 +244,14 @@ def search(request):
 
       
         return render(request, "Item/search.html", context)
+    
+@login_required
+def editItem(request, id):
+    db = DatabaseSingleton()
+    if request.method == "POST":
+        db.editItem(request, id)
+        return myItems(request)
+    
+    item = db.getItem(id)
+    return render(request, "Item/edit.html",{"item": item})
     
