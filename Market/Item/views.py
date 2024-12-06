@@ -90,17 +90,18 @@ def buy(request, item_id):
         payment_info = request.POST.get('payment_info')
         address = request.POST.get("address")
         db = DatabaseSingleton()
-        db.createPurchase(request, item_id)
+        result = db.createPurchase(request, item_id)
 
-        subject = f"Purchase Confirmation for {item.title}"
-        message = f"Dear {name},\n\nThank you for purchasing {item.title}!\n\nOrder Details:\n- Item: {item.title}\n- Price: ${item.price}\n- Phone: {number}\n- Payment Info: {payment_info}\n\nWe will process your order shortly."
-        from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = [email]
+        if result:
+            subject = f"Purchase Confirmation for {item.title}"
+            message = f"Dear {name},\n\nThank you for purchasing {item.title}!\n\nOrder Details:\n- Item: {item.title}\n- Price: ${item.price}\n- Phone: {number}\n- Payment Info: {payment_info}\n\nWe will process your order shortly."
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [email]
 
-        send_mail(subject, message, from_email, recipient_list)
+            send_mail(subject, message, from_email, recipient_list)
 
-       
-        return render(request, 'Item/confirmation.html', {'item': item, 'name': name})
+        
+            return render(request, 'Item/confirmation.html', {'item': item, 'name': name})
     return render(request, 'Item/buy.html', {'items': items, "price" : item.price})
 
 @login_required

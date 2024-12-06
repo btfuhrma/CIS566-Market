@@ -57,26 +57,29 @@ class DatabaseSingleton:
     
     def createPurchase(self, request, itemId):
         item = get_object_or_404(Item, id=itemId)
-        try:
-            item.is_sold = True
-            item.save()
-        except:
-            return f"Item '{item.title}' marked as sold."
-        name = request.POST.get('name')
-        number = request.POST.get('number')
-        email = request.POST.get('email')
-        payment_info = request.POST.get('payment_info')
-        address = request.POST.get("address")
-        
-        purchase = Purchase.objects.create(
-            item=item,
-            user=request.user,
-            name=name,
-            number=number,
-            email=email,
-            payment_info=payment_info,
-            address = address
-        )
+        if request.user != item.user:
+            try:
+                item.is_sold = True
+                item.save()
+            except:
+                return f"Item '{item.title}' marked as sold."
+            name = request.POST.get('name')
+            number = request.POST.get('number')
+            email = request.POST.get('email')
+            payment_info = request.POST.get('payment_info')
+            address = request.POST.get("address")
+            
+            purchase = Purchase.objects.create(
+                item=item,
+                user=request.user,
+                name=name,
+                number=number,
+                email=email,
+                payment_info=payment_info,
+                address = address
+            )
+            return True
+        return False
 
     def createPurchaseCart(self, request):
         name = request.POST.get('name')
@@ -111,7 +114,7 @@ class DatabaseSingleton:
         item = get_object_or_404(Item, id=itemId)
         cart, created = Cart.objects.get_or_create(user=request.user)
 
-        if item not in cart.items.all():
+        if item not in cart.items.all() and request.user != item.user:
             cart.items.add(item)
             return created
 
