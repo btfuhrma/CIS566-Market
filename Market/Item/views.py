@@ -47,7 +47,7 @@ def index(request):
 def purchases(request):
     db = DatabaseSingleton()
 
-    db.getPurchases(request)
+    purchases = db.getPurchases(request)
     return render(request, "Item/purchases.html", {'purchases': purchases})
 
 def search(request):
@@ -63,6 +63,7 @@ def search(request):
 
 @login_required
 def createItem(request):
+    print(f"User trying to access page {request.user}")
     return render(request, "Item/createItem.html")
 
 def create(request):
@@ -87,7 +88,7 @@ def buy(request, item_id):
         number = request.POST.get('number')
         email = request.POST.get('email')
         payment_info = request.POST.get('payment_info')
-
+        address = request.POST.get("address")
         db = DatabaseSingleton()
         db.createPurchase(request, item_id)
 
@@ -202,6 +203,13 @@ def deleteItem(request, item_id):
 def editItem(request, item_id):
     if request.method == "POST":
         pass
+
+@login_required
+def mySales(request):
+    if request.method == "GET":
+        db = DatabaseSingleton()
+        myItems = db.getMySales(request)
+        return render(request, "Item/mySales.html", {"items" : myItems})
 from services import Iterator  
 
 def search(request):

@@ -10,12 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="w-full bg-zinc-800">
-        <div class="container mx-auto px-4 pt-4">
-            <h1 class="text-4xl font-bold text-white text-center">Market</h1>
-        </div>
-    
-        <div class="container mx-auto px-4 py-2">
+    <div class="container mx-auto px-4 py-2">
             <nav class="flex justify-between items-center">
                 <div class="flex">
                     <a href="{% url 'index' %}" class="text-white hover:text-gray-300 block px-4 py-2">Home</a>
@@ -40,46 +35,43 @@
             </nav>
         </div>
     </div>
-
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="w-full justify-center text-center my-16">
-        <h1 class="text-3xl font-bold text-gray-800">Cart Items</h1>
-    </div>
-
-    <div class="w-full justify-center text-center my-8">
-        <a href="{% url 'buyCart' %}" class="text-xl font-bold text-white border-black border bg-green-500 py-4 px-2 rounded hover:bg-green-600">Purchase All</a>
+        <h1 class="text-3xl font-bold text-gray-800">My Sales</h1>
     </div>
 
     <div class="w-[70%] mx-auto grid grid-cols-1">
-        {% for item in cartItems %}
+        {% for item in items %}
             <div class="bg-zinc-800 p-4 rounded-lg shadow-lg my-4 flex items-center h-64">
                 <div class="w-52 h-52 flex items-center justify-center overflow-hidden rounded-lg mr-4 bg-gray-700">
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-contain">
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="w-full h-full object-contain">
                 </div>
     
                 <div class="flex-1">
-                    <a href="{% url 'showItem' item.id %}" class="text-lg font-semibold text-blue-600 hover:text-blue-800">
-                        {{ item.title }}
-                    </a>
+                    <p class="text-white text-sm mb-4">{{ item.title|truncatewords:15 }}</p>
                     <p class="text-white text-sm mb-4">{{ item.description|truncatewords:15 }}</p>
+                </div>
+                
+                <div class="flex-1">
+                    <p class="text-white text-sm mb-4">{{ item.user|truncatewords:15 }}</p>
+                    <p class="text-white text-sm mb-4">{{ item.address|truncatewords:15 }}</p>
                 </div>
     
                 <div class="text-lg font-semibold text-white mr-4">
                     ${{ item.price }}
                 </div>
-    
-                <div class="mt-4">
-                    <form action="{% url 'buy' item.id %}" method="get" class="w-full">
-                        <button type="submit" class="w-24 bg-green-500 text-white py-2 rounded hover:bg-green-600">Buy</button>
-                    </form>
-                    <form action="{% url 'delete_from_cart' item.id %}" method="get" class="w-full">
-                        <button type="submit" class="w-24 bg-green-500 text-white py-2 rounded hover:bg-green-600 my-5">Remove</button>
-                    </form>
-                </div>
             </div>
         {% empty %}
-            <p class="text-center col-span-full text-lg text-gray-600">Cart is Empty</p>
+            <p class="text-center col-span-full text-lg text-gray-600">No Sales</p>
         {% endfor %}
     </div>
-    
 </body>
 </html>

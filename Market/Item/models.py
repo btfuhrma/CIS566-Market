@@ -4,8 +4,6 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 
-User = get_user_model()  # This gets the current user model
-
 # Create your models here.
 class Item(models.Model):
     CATEGORY_CHOICES = [
@@ -13,7 +11,7 @@ class Item(models.Model):
         ('collectible', 'Collectible'),
         ('general_market', 'General Market'),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="items")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     title = models.CharField(max_length=50)
     description = models.TextField()
@@ -79,6 +77,7 @@ class Purchase(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
     name = models.CharField(max_length=100)
     number = models.CharField(max_length=15)
+    address = models.CharField(max_length=100)
     email = models.EmailField()
     payment_info = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)  

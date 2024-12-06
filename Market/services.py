@@ -56,7 +56,7 @@ class DatabaseSingleton:
         return item
     
     def createPurchase(self, request, itemId):
-        item = item = get_object_or_404(Item, id=itemId)
+        item = get_object_or_404(Item, id=itemId)
         try:
             item.is_sold = True
             item.save()
@@ -66,6 +66,7 @@ class DatabaseSingleton:
         number = request.POST.get('number')
         email = request.POST.get('email')
         payment_info = request.POST.get('payment_info')
+        address = request.POST.get("address")
         
         purchase = Purchase.objects.create(
             item=item,
@@ -73,7 +74,8 @@ class DatabaseSingleton:
             name=name,
             number=number,
             email=email,
-            payment_info=payment_info
+            payment_info=payment_info,
+            address = address
         )
 
     def createPurchaseCart(self, request):
@@ -81,6 +83,7 @@ class DatabaseSingleton:
         number = request.POST.get('number')
         email = request.POST.get('email')
         payment_info = request.POST.get('payment_info')
+        address = request.POST.get("address")
 
         carts = Cart.objects.filter(user=request.user)
         items_in_cart = [cart_item.item for cart_item in carts]
@@ -96,7 +99,8 @@ class DatabaseSingleton:
                 name=name,
                 number=number,
                 email=email,
-                payment_info=payment_info
+                payment_info=payment_info,
+                address = address
             )
 
     def deletePurchase(self, request, purchaseId):
@@ -123,12 +127,28 @@ class DatabaseSingleton:
         return recentItems
     
     def getMyItems(self, request):
-        myItems = Item.objects.filter(user=request.user)
+        myItems = Item.objects.filter(user=request.user, is_sold=False)
         return myItems
     
     def deleteItem(self, request, itemId):
         item = get_object_or_404(Item, user=request.user, id=itemId)
         item.delete()
+
+    def getMySales(self, request):
+        myItems = Item.objects.filter(user=request.user, is_sold=True)
+        purchases = Purchase.objects.all()
+        purchases = []
+        for item in myItems:
+            purchase = {}
+            saleUser = Purchase.objects.get(item=item)
+            purchase["title"] = item.title
+            purchase["description"] = item.description
+            purchase["price"] = item.price
+            purchase["user"] = saleUser.user.email
+            purchase["address"] = saleUser.address
+            purchase["image"] = item.image.url
+            purchases.append(purchase)
+        return purchases
 
 class Iterator:
     def __init__(self, items, items_per_page):
