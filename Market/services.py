@@ -57,7 +57,7 @@ class DatabaseSingleton:
     
     def createPurchase(self, request, itemId):
         item = get_object_or_404(Item, id=itemId)
-        if request.user != item.user:
+        if request.user != item.user and item.is_sold is False:
             try:
                 item.is_sold = True
                 item.save()
@@ -78,6 +78,7 @@ class DatabaseSingleton:
                 payment_info=payment_info,
                 address = address
             )
+            self.removeFromAllCarts()
             return True
         return False
 
@@ -91,6 +92,8 @@ class DatabaseSingleton:
         carts = Cart.objects.filter(user=request.user)
         items_in_cart = [cart_item.item for cart_item in carts]
         for item in items_in_cart:
+            if item.is_sold is True:
+                self.removeFromAllCarts()
             try:
                 item.is_sold = True
                 item.save()
@@ -105,6 +108,12 @@ class DatabaseSingleton:
                 payment_info=payment_info,
                 address = address
             )
+            self.removeFromAllCarts()
+
+    def removeFromAllCarts(item):
+        cartsWithItem = Cart.objects.filter(items=item)
+        for cart in cartsWithItem:
+            cart.items.remove(item)
 
     def deletePurchase(self, request, purchaseId):
         purchase = get_object_or_404(Purchase, id=purchaseId, user=request.user)  

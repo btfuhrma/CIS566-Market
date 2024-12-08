@@ -24,13 +24,13 @@ class ItemBuilder:
 
     def __init__(self):
        
-        title = 'Title'
-        description = 'Item Description'
-        price = 0
-        category = 'general_market'
-        is_sold = False
-        image = None
-        user = None
+        self.title = 'Title'
+        self.description = 'Item Description'
+        self.price = 0
+        self.category = 'general_market'
+        self.is_sold = False
+        self.image = None
+        self.user = None
 
     def set_user(self, user):
         self.user = user
