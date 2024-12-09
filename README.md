@@ -1,0 +1,9 @@
+- Installation requirements:
+  - Python 3.*
+  - Python Modules: django, pillow
+    - pip install django, pillow
+- How to run:
+  - Move to the directory containging the project
+      - This directory should be named 'Market'
+  - run the command 'python manage.py runserver'
+  - Running this command will automatically have the database included and there should be no issues with any features
