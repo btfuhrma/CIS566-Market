@@ -65,22 +65,16 @@
         <div class="w-[90%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {% for item in recent_items %}
                 <div class="bg-zinc-800 p-4 rounded-lg shadow-lg flex flex-col">
-                    <!-- Image -->
                     <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-40 object-cover rounded-lg mb-4">
         
-                    <!-- Title -->
                     <h2 class="text-xl font-bold text-white">{{ item.title }}</h2>
         
-                    <!-- Description -->
                     <p class="text-white mb-4 h-16 overflow-hidden">{{ item.description|truncatewords:20 }}</p>
         
-                    <!-- Price -->
                     <p class="text-lg font-semibold text-white mt-auto">${{ item.price }}</p>
         
-                    <!-- Added Date -->
                     <p class="text-sm text-white">Added on: {{ item.addedDate|date:"M d, Y" }}</p>
         
-                    <!-- View Item Button -->
                     <a href="{% url 'showItem' item.id %}" 
                        class="block mt-4 text-center bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
                         View Item
