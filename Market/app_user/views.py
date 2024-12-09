@@ -9,6 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 import random
 import string
 
@@ -106,3 +107,28 @@ def forgot_password(request):
         return render(request, 'app_user/forgot_password.html')
 
     return render(request, 'app_user/forgot_password.html')
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+     
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('profile_settings')
+    
+        user = request.user
+        user.email = email
+        if password:
+            user.set_password(password)
+        
+        user.save()
+     
+        update_session_auth_hash(request, user)
+        messages.success(request, "Profile updated successfully.")
+        return redirect('index')  
+    
+   
+    return render(request, 'app_user/profile_settings.html')
