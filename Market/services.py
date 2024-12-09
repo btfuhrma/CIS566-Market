@@ -78,7 +78,7 @@ class DatabaseSingleton:
                 payment_info=payment_info,
                 address = address
             )
-            self.removeFromAllCarts()
+            self.removeFromAllCarts(item)
             return True
         return False
 
@@ -93,7 +93,7 @@ class DatabaseSingleton:
         items_in_cart = [cart_item.item for cart_item in carts]
         for item in items_in_cart:
             if item.is_sold is True:
-                self.removeFromAllCarts()
+                self.removeFromAllCarts(item)
             try:
                 item.is_sold = True
                 item.save()
@@ -110,7 +110,7 @@ class DatabaseSingleton:
             )
             self.removeFromAllCarts()
 
-    def removeFromAllCarts(item):
+    def removeFromAllCarts(self, item):
         cartsWithItem = Cart.objects.filter(items=item)
         for cart in cartsWithItem:
             cart.items.remove(item)
