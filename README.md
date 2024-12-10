@@ -7,7 +7,9 @@
       - This directory should be named 'Market'
           - 'cd market'
           - The directory should look like this 'insert-you-path\CIS566-Market\market'
-  - run the commands 'python manage.py migrate'
+  - run the commands:
+  - 'python manage.py makemigrations'
+  - 'python manage.py migrate'
       - This command ensures that all schema for the database are applied
   - run the command 'python manage.py runserver'
   - Running this command will automatically have the database included and there should be no issues with any features
