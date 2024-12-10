@@ -8,3 +8,5 @@
   - run the command 'python manage.py runserver'
   - Running this command will automatically have the database included and there should be no issues with any features
   - The application will then be available at http://127.0.0.1:8000/ 
+- Testing Admin Functionality
+  - There is an account made for that with the username = 'admin' and password = 'password'
